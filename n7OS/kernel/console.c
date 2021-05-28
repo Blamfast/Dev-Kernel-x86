@@ -20,7 +20,6 @@ void set_pos_cursor(int p) {
 void timer() {
     int h,m,s;
     conversion_timer(&h,&m,&s);
-
     if (h<10) {
         scr_tab[72] = (0x52<<8)|'0';
         scr_tab[73] = (0x52<<8)|('0' + h);

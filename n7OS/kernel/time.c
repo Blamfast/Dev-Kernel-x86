@@ -34,7 +34,9 @@ void traitement_IT() {
 
 void conversion_timer(int* heure,int* min, int* sec) {
     *sec = cpt/1000;
-    *sec = *sec % 60;
-    *min = (*sec % 3600)/60;
     *heure = *sec/3600;
+    *min = (*sec % 3600)/60;
+    *sec = *sec % 60;
+    
+    
 }
