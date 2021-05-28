@@ -16,32 +16,32 @@ void set_pos_cursor(int p) {
     outb(0x0E,0x3D4);
     outb((p >> 8) & 0xFF, 0x3D5);
 }
-
+int couleur = 0x1B;
 void timer() {
     int h,m,s;
     conversion_timer(&h,&m,&s);
     if (h<10) {
-        scr_tab[72] = (0x52<<8)|'0';
-        scr_tab[73] = (0x52<<8)|('0' + h);
+        scr_tab[72] = (couleur<<8)|'0';
+        scr_tab[73] = (couleur<<8)|('0' + h);
     } else {
-        scr_tab[72] = (0x52<<8)|('0' + (h/10));
-        scr_tab[73] = (0x52<<8)|('0' + (h%10));
+        scr_tab[72] = (couleur<<8)|('0' + (h/10));
+        scr_tab[73] = (couleur<<8)|('0' + (h%10));
     }
-    scr_tab[74] = (0x52<<8)|':';
+    scr_tab[74] = (couleur<<8)|':';
     if (m<10) {
-        scr_tab[75] = (0x52<<8)|'0';
-        scr_tab[76] = (0x52<<8)|('0' + m);
+        scr_tab[75] = (couleur<<8)|'0';
+        scr_tab[76] = (couleur<<8)|('0' + m);
     } else {
-        scr_tab[75] = (0x52<<8)|('0' + (m/10));
-        scr_tab[76] = (0x52<<8)|('0' + (m%10));
+        scr_tab[75] = (couleur<<8)|('0' + (m/10));
+        scr_tab[76] = (couleur<<8)|('0' + (m%10));
     }
-    scr_tab[77] = (0x52<<8)|':';
+    scr_tab[77] = (couleur<<8)|':';
     if (s<10) {
-        scr_tab[78] = (0x52<<8)|'0';
-        scr_tab[79] = (0x52<<8)|('0' + s);
+        scr_tab[78] = (couleur<<8)|'0';
+        scr_tab[79] = (couleur<<8)|('0' + s);
     } else {
-        scr_tab[78] = (0x52<<8)|('0' + (s/10));
-        scr_tab[79] = (0x52<<8)|('0' + (s%10));
+        scr_tab[78] = (couleur<<8)|('0' + (s/10));
+        scr_tab[79] = (couleur<<8)|('0' + (s%10));
     }
 }
 
@@ -51,7 +51,7 @@ int calcul_pos_cursor(int l, int c) {
 
 void console_putchar(const char c) {
     if (c > 31 && c < 127) {
-        scr_tab[pos] = (0x52<<8)|c;
+        scr_tab[pos] = (couleur<<8)|c;
         colonne++;
         if (colonne > MAX_COLONNE) {
             colonne=0;
@@ -81,7 +81,7 @@ void console_putchar(const char c) {
 
     } else if (c == '\f') {
         for (int j = 0; j < 2000; j++) {
-            scr_tab[j] = (0x52<<8)|' ';
+            scr_tab[j] = (couleur<<8)|' ';
             colonne=0;
             ligne=0;
         }
@@ -89,7 +89,7 @@ void console_putchar(const char c) {
     if (ligne > MAX_LIGNE) {
         memcpy(scr_tab, scr_tab+MAX_COLONNE, MAX_LIGNE*MAX_COLONNE*2);
             for (int i = 1920; i < 2000;  i++)
-                scr_tab[i] = (0x52<<8)|' ';
+                scr_tab[i] = (couleur<<8)|' ';
             ligne = MAX_LIGNE;
             colonne = 0;
     }
